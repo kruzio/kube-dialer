@@ -1,0 +1,13 @@
+apiVersion: v2
+name: kube-dialer
+description: Kubernetes Web Speed Dialer
+keywords:
+  - ops
+  - speed-dial
+  - bookmarks
+type: application
+version: 1.0.0
+appVersion: 1.0.0
+icon: https://avatars3.githubusercontent.com/u/61350001?s=200&v=4
+sources:
+- https://github.com/kruzio/kube-dialer

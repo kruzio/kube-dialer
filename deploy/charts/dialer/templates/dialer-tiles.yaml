@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dialer-tiles
+
+data:
+  one.md: |
+    ---
+    title: one one one one one one one
+    link: https://www.one.com
+    labels:
+        name: 'Some Guy'
+        email: 'someguy@somecompany'
+        account-id: 'xxxxxxxxxxxxxxxxx'
+        cluster-id: 'somecluster'    
+    ---
+
+  two.md: |
+    ---
+    title: two two two two two two two two 
+    link: https://www.two.com
+    labels:
+        name: 'Two Is more than one'
+        email: 'iam@two.com'
+        account-id: 'xxxxxxxxxxxxxxxxx'
+        cluster-id: 'somecluster'
+        color: 'blue'   
+    ---

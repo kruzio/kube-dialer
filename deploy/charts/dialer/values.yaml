@@ -1,0 +1,8 @@
+image:
+  name: kruzio/kube-dialer:1.0.0-966cf0a
+  pullPolicy: Always # Always | IfNotPresent
+
+dialerHostname: ops.kruz.io 
+dialerService: kube-dialer
+dialerPort: 8080
+
