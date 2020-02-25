@@ -1,0 +1,26 @@
+{{ define "main" }}
+<div class="row">
+<div class="col-md-6">
+<article class="post">
+
+  <!-- <header class="post-header">
+    <h1 class="post-title">{{ .Title }}</h1>
+  </header> -->
+
+  <div class="post-content">
+    {{ .Content }}
+    {{with  .Site.Params.github }}
+    <!-- Place this tag where you want the button to render. -->
+    <!-- <a class="github-button" href="{{.}}"  data-size="large" data-show-count="true" aria-label="Star alcideio/pipeline on GitHub">Star</a> -->
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <!-- <script async defer src="https://buttons.github.io/buttons.js"></script>  -->
+    {{ end }}     
+  </div>
+
+</article>
+</div>
+{{ partial "sidebar.html" . }}
+</div>
+
+{{ partial "fb-script.html" . }}
+{{ end }}

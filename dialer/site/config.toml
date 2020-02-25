@@ -1,0 +1,30 @@
+baseURL = "https://kube-dialer.kruzio.io/"
+languageCode = "en-us"
+title = "Kruz | Kube Dialer"
+theme = "cards"
+paginate = 1000
+publishDir = "docs"
+
+
+[params]
+  defaultImage = "https://avatars3.githubusercontent.com/u/61350001?s=200&v=4"
+  builtBy="kruz.io"
+
+  facebook = ""
+  quora = ""
+  linkedin = "https://linkedin.com/company/kruzio"
+  twitter = "https://twitter.com/kruzio"
+  github = "https://github.com/kruzio"
+  email = "info@kruz.io"
+
+  fbLikeBox = ""
+  fbAppId = ""
+  fbPageUrl = ""
+  fbPageTitle = ""
+
+  analytics = ""
+  disqus = ""
+
+  [params.copyright]
+    name = "Kruz Inc."
+    link = "https://kruz.io"

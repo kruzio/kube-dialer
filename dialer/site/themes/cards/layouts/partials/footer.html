@@ -1,0 +1,38 @@
+<footer>
+    <div class="container">
+        <div class="row ">
+            <div class="col-md-4 text-center mt25"></div>
+
+            <div class="col-md-4 text-center mt25 footer-divider" >
+                {{ with .Site.Params.builtBy }}
+                <a target="_blank" href="https://kruz.io"><img src="https://avatars3.githubusercontent.com/u/61350001?s=200&v=4" style="height: 64px;" alt="{{.}}"></a>
+                {{ end }}
+                {{ with .Site.Params.copyright }}
+                <div class="footer-text">All Rights Reserved <a class="footer-text" target="_blank" href="{{ .link }}">{{ .name }}</a></div>
+                {{ end }}
+                <div class="" style="font-size: 9px; color: whitesmoke;">
+                        {{ with .Site.Params.facebook }}
+                         <a target="_blank" href="{{.}}"><li class="card_social facebook"><i class="fa fa-facebook"></i></li></a> 
+                         {{ end }}
+                        {{with  .Site.Params.quora }}
+                         <a target="_blank" href="{{.}}"><li class="social quora"><i class="fa fa-quora"></i></li></a>
+                         {{ end }}
+                         {{with  .Site.Params.linkedin }}
+                         <a target="_blank" href="{{.}}"><li class="social linkedin"><i class="fab fa-linkedin"></i></li></a>
+                         {{ end }}                
+                        {{with  .Site.Params.twitter }}
+                         <a target="_blank" href="{{.}}"><li class="social twitter"><i class="fab fa-twitter"></i></li></a>
+                         {{ end }}
+                        {{with  .Site.Params.github }}
+                         <a target="_blank" href="{{.}}"><li class="social github"><i class="fab fa-github"></i></li></a>
+                         {{ end }}
+                        {{with  .Site.Params.email }}
+                         <a target="_blank" href="mailto:{{.}}"><li class="social email"><i class="far fa-envelope"></i></li></a>
+                         {{ end }}
+                </div>
+            </div>
+            <div class="col-md-4 text-center mt25"></div>
+
+        </div> 
+    </div>
+</footer>
