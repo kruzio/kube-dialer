@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+  {{ partial "head.html" .}}
+
+  <body>
+
+    {{ partial "header.html" . }}
+
+    <div class="wrapper">
+        {{ block "main" . }} {{ end }}
+    </div>
+
+    {{ partial "footer.html" . }}    
+
+
+  {{ with .Site.Params.analytics }} 
+    {{ partial "analytics.html" . }}
+  {{ end }}
+  </body>
+
+</html>
