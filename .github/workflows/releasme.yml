@@ -27,7 +27,7 @@ jobs:
         run: make kruz-get-linux-deps
 
       - name: Build
-        run: kube-dialer-build-image
+        run: make kube-dialer-build-image
 
       - name: Create Release
         id: create_release
