@@ -23,12 +23,11 @@ jobs:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
 
-      - name: Get dependencies
-        run: |
-          go get -v -t -d ./...
+      - name: Get Dependencies
+        run: make kruz-get-linux-deps
 
       - name: Build
-        run: make rbac-minimizer
+        run: kube-dialer-build-image
 
       - name: Create Release
         id: create_release
@@ -46,6 +45,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./rbac-minimizer
-          asset_name: rbac-minimizer
+          asset_path: deploy/charts/dialer
+          asset_name: kube-dialer-chart
           asset_content_type: application/octet-stream
