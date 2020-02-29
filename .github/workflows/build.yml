@@ -69,6 +69,10 @@ jobs:
       DOCKER_IMAGE: kruzio/kube-dialer
       REPOSITORY: kruzio/kube-dialer/dialer    
     steps:
+    
+    - name: Check out code
+      uses: actions/checkout@v2
+
     - name: Run chart-testing (lint)
       run: |
         curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 
