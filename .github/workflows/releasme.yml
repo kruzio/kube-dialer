@@ -1,10 +1,7 @@
 name: Release Draft On Master
 
 on:
-  push:
-    # branches to consider in the event; optional, defaults to all
-    #branches:
-    #  - master
+  create:
     # Sequence of patterns matched against refs/tags
     tags:
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
