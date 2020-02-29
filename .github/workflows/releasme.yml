@@ -26,8 +26,12 @@ jobs:
       - name: Get Dependencies
         run: make kruz-get-linux-deps
 
-      - name: Build
-        run: kube-dialer-build-image
+      - name: Build Container (kube-dialer)
+        run: kube-dialer-build-image DOCKER_IMAGE="kruzio/kube-dialer" VERSION="0.1"
+
+      - name: Publish Container (kube-dialer)
+        run: |- 
+          make kube-dialer-publish-image-github DOCKER_IMAGE="kruzio/kube-dialer" VERSION="0.1"
 
       - name: Create Release
         id: create_release
@@ -45,6 +49,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: deploy/charts/dialer
-          asset_name: kube-dialer-chart
-          asset_content_type: application/octet-stream
+          asset_path: artifacts/kube-dialer-chart.zip
+          asset_name: kube-dialer-chart.zip
+          asset_content_type: application/zip

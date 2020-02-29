@@ -17,7 +17,7 @@ kruz-get-linux-deps: ##@Install Dependencies MacOS
 	sudo mv hugo /usr/local/bin/hugo
 
 VERSION ?= 1.0.0
-DOCKER_IMAGE ?= kruzio/kube-dialer
+DOCKER_IMAGE ?= 	
 DOCKER_VERSION_REV = `git rev-parse --short HEAD`
 DOCKER_TAG=$(VERSION)-$(DOCKER_VERSION_REV)
 
@@ -25,7 +25,18 @@ kube-dialer-build-image: ##@KubeDialer Build kube-dialer image
 	cd dialer && docker build \
 	  --build-arg VCS_REF=`git rev-parse --short HEAD` \
 	  --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
-	  -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
+	  -t $(DOCKER_IMAGE):$(DOCKER_TAG) . 
+
+kube-dialer-publish-image-github: ##@KubeDialer Publish kube-dialer image to github packages
+	# Push to Github
+	cat ~/GH_TOKEN.txt | docker login -u gadinaor --password-stdin
+	docker tag $(DOCKER_IMAGE):$(DOCKER_TAG) docker.pkg.github.com/kruzio/kube-dialer/dialer:$(DOCKER_TAG) docker.pkg.github.com/kruzio/kube-dialer/dialer:master
+	docker push docker.pkg.github.com/kruzio/kube-dialer/dialer:$(DOCKER_TAG)
+	docker push docker.pkg.github.com/kruzio/kube-dialer/dialer:master
+
+kube-dialer-artifacts: ##@KubeDialer Publish kube-dialer image
+	mkdir artifacts | true
+	zip -r artifacts/kube-dialer-chart.zip deploy/charts
 
 kube-dialer-publish-image: ##@KubeDialer Publish kube-dialer image
 	# Push to DockerHub

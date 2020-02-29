@@ -17,3 +17,6 @@ template: |
   ## Changes
 
   $CHANGES 
+
+  ## Docker images
+  - `docker pull docker.pkg.github.com/kruzio/kube-dialer/dialer:master`
