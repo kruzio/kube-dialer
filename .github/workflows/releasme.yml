@@ -28,7 +28,7 @@ jobs:
 
       - name: Build It (kube-dialer)
         env:
-          DOCKER_IMAGE: kruzio/kube-dialer/dialer
+          DOCKER_IMAGE: kruzio/kube-dialer
         run: |
           make kube-dialer-artifacts
           make kube-dialer-build-image DOCKER_IMAGE=${DOCKER_IMAGE}
