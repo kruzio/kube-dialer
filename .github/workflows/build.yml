@@ -97,11 +97,10 @@ jobs:
       run: |
         curl -o kube-advisor https://alcide.blob.core.windows.net/generic/stable/linux/advisor
         chmod +x kube-advisor
-        mkdir -P /tmp/alcide
-        ./kube-advisor --eula-sign validate cluster --namespace-include="kube-dialer" --outfile /tmp/alcide/alcide-advisor-security-report.html
+        ./kube-advisor --eula-sign validate cluster --namespace-include="kube-dialer" --outfile alcide-advisor-security-report.html
 
     - name: Upload Alcide Advisor Scan Report
       uses: actions/upload-artifact@v1
       with:
         name: alcide-advisor-security-report.html 
-        path: /tmp/alcide/alcide-advisor-security-report.html  
+        path: alcide-advisor-security-report.html  
