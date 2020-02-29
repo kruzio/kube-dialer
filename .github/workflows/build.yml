@@ -20,7 +20,7 @@ jobs:
       DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
       DOCKER_REGISTRY_URL: "docker.pkg.github.com"  
       DOCKER_IMAGE: kruzio/kube-dialer
-      REPOSITORY: kruzio/kube-dialer/dialer  
+      REPOSITORY: kruzio/kube-dialer/dialer-test  
 
     steps:
     - name: Set up Go 1.13
@@ -47,9 +47,7 @@ jobs:
       run:  |
         docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REGISTRY_URL}
         docker tag $DOCKER_IMAGE:latest docker.pkg.github.com/$REPOSITORY:$GITHUB_SHA
-        docker tag $DOCKER_IMAGE:latest docker.pkg.github.com/$REPOSITORY:latest 
         docker push docker.pkg.github.com/$REPOSITORY:$GITHUB_SHA
-        docker push docker.pkg.github.com/$REPOSITORY:latest
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v1
@@ -67,7 +65,7 @@ jobs:
       DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
       DOCKER_REGISTRY_URL: "docker.pkg.github.com"  
       DOCKER_IMAGE: kruzio/kube-dialer
-      REPOSITORY: kruzio/kube-dialer/dialer    
+      REPOSITORY: kruzio/kube-dialer/dialer-test    
     steps:
 
     - name: Check out code
