@@ -29,7 +29,7 @@ jobs:
       - name: Build Container (kube-dialer)
         env:
           DOCKER_IMAGE: ${{ secrets.REPOSITORY }}
-        run: make kube-dialer-build-image
+        run: make kube-dialer-build-image DOCKER_IMAGE=$DOCKER_IMAGE
 
       - name: Login to Github Package Registry
         env:
