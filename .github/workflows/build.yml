@@ -89,6 +89,7 @@ jobs:
 
     - name: Test Chart Installation
       run: |
+        kubectl cluster-info
         kubectl create ns kube-dialer
         helm install --namespace kube-dialer --set image.name=docker.pkg.github.com/$REPOSITORY:$GITHUB_SHA kube-dialer deploy/charts/dialer
 
