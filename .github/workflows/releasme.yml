@@ -29,7 +29,9 @@ jobs:
       - name: Build Container (kube-dialer)
         env:
           DOCKER_IMAGE: kruzio/kube-dialer
-        run: make kube-dialer-build-image DOCKER_IMAGE=${DOCKER_IMAGE}
+        run: |
+          make kube-dialer-build-image DOCKER_IMAGE=${DOCKER_IMAGE}
+          make kube-dialer-artifacts
 
       - name: Login to Github Package Registry
         env:
