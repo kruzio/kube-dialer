@@ -3,8 +3,8 @@ name: Release Draft On Master
 on:
   push:
     # branches to consider in the event; optional, defaults to all
-    branches:
-      - master
+    #branches:
+    #  - master
     # Sequence of patterns matched against refs/tags
     tags:
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
@@ -52,7 +52,13 @@ jobs:
           docker tag $DOCKER_IMAGE:latest docker.pkg.github.com/$REPOSITORY:$GITHUB_SHA
           docker tag $DOCKER_IMAGE:latest docker.pkg.github.com/$REPOSITORY:master 
           docker push docker.pkg.github.com/$REPOSITORY:$GITHUB_SHA
-          docker push docker.pkg.github.com/$REPOSITORY:master     
+          docker push docker.pkg.github.com/$REPOSITORY:master
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: deployment-files
+          path: artifacts/
 
       - name: Create Release
         id: create_release
