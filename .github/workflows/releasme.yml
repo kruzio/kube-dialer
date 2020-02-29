@@ -42,7 +42,7 @@ jobs:
       - name: Publish Container (kube-dialer)
         env:
           DOCKER_IMAGE: kruzio/kube-dialer
-          REPOSITORY: kruzio/kube-dialer
+          REPOSITORY: kruzio/kube-dialer/dialer
           
 
         run:  |
