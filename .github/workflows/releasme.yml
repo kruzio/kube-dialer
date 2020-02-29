@@ -27,7 +27,7 @@ jobs:
         run: make kruz-get-linux-deps
 
       - name: Build Container (kube-dialer)
-        run: kube-dialer-build-image DOCKER_IMAGE="kruzio/kube-dialer" VERSION="0.1"
+        run: make kube-dialer-build-image DOCKER_IMAGE="kruzio/kube-dialer" VERSION="0.1"
 
       - name: Publish Container (kube-dialer)
         run:  make kube-dialer-publish-image-github DOCKER_IMAGE="kruzio/kube-dialer" VERSION="0.1"
