@@ -3,16 +3,23 @@ name: Release Draft On Master
 on:
   push:
     # branches to consider in the event; optional, defaults to all
-    branches:
-      - master
+    #branches:
+    #  - master
     # Sequence of patterns matched against refs/tags
     tags:
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
-  build:
-    name: Upload Release Asset
+  release:
+    name: Release Me
     runs-on: ubuntu-latest
+    env:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_GITHUB_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      DOCKER_REGISTRY_URL: "docker.pkg.github.com"  
+      DOCKER_IMAGE: kruzio/kube-dialer
+      REPOSITORY: kruzio/kube-dialer/dialer  
+
     steps:
       - name: Set up Go 1.13
         uses: actions/setup-go@v1
@@ -32,27 +39,23 @@ jobs:
         run: |
           make kube-dialer-artifacts
           make kube-dialer-build-image DOCKER_IMAGE=${DOCKER_IMAGE}
-          docker tag ${DOCKER_IMAGE}:latest kruzio/kube-dialer/dialer
+          docker tag ${DOCKER_IMAGE}:latest ${REPOSITORY}
 
       - name: Login to Github Package Registry
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_GITHUB_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-          DOCKER_REGISTRY_URL: "docker.pkg.github.com"
-
         run: docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REGISTRY_URL}
 
-      - name: Publish Container (kube-dialer)
-        env:
-          DOCKER_IMAGE: kruzio/kube-dialer
-          REPOSITORY: kruzio/kube-dialer/dialer
-          
-
+      - name: Publish Container (kube-dialer)        
         run:  |
           docker tag $DOCKER_IMAGE:latest docker.pkg.github.com/$REPOSITORY:$GITHUB_SHA
           docker tag $DOCKER_IMAGE:latest docker.pkg.github.com/$REPOSITORY:master 
           docker push docker.pkg.github.com/$REPOSITORY:$GITHUB_SHA
-          docker push docker.pkg.github.com/$REPOSITORY:master     
+          docker push docker.pkg.github.com/$REPOSITORY:master
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: deployment-files
+          path: artifacts/
 
       - name: Create Release
         id: create_release
@@ -69,7 +72,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. 
+          # See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
           asset_path: artifacts/kube-dialer-chart.zip
           asset_name: kube-dialer-chart.zip
           asset_content_type: application/zip

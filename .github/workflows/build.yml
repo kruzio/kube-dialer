@@ -1,8 +1,14 @@
-name: Build On Push
+name: Build On Push/Pull Request
 on:
+  # Trigger the workflow on push or pull request,
+  # but only for the master branch
   push:
     branches:
-      - '!master'
+      - '*'
+  pull_request:
+    branches:
+      - master
+
 jobs:
 
   build:
@@ -21,14 +27,25 @@ jobs:
     - name: Get dependencies
       run: make kruz-get-linux-deps
 
-    - name: Build
-      run: kube-dialer-build-image
+    - name: Build It (kube-dialer)
+      env:
+        DOCKER_IMAGE: kruzio/kube-dialer
+      run: |
+        make kube-dialer-artifacts
+        make kube-dialer-build-image DOCKER_IMAGE=${DOCKER_IMAGE}
       
-#    - name: Upload artifact
-#      uses: actions/upload-artifact@v1.0.0
-#      with:
-#        # Artifact name
-#        name: rbac-minimizer
-#        # Directory containing files to upload
-#        path: ./
-     
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: deployment-files
+        path: artifacts/
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Test something
+      run: |
+        echo hello
+
