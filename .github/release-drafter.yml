@@ -31,5 +31,4 @@ template: |
   ```
 
   ## Docker images
-  - docker pull docker.pkg.github.com/kruzio/kube-dialer/dialer:$GITHUB_SHA
-
+  - docker pull docker.pkg.github.com/kruzio/kube-dialer/dialer:master
