@@ -18,6 +18,18 @@ template: |
 
   $CHANGES 
 
+  ## Why kube-dialer
+  A single page web application with shortcuts (external links) genearted from ConfigMap
+
+  ## Installation
+  Download artifact and unzip it.
+
+  With Helm 3 run
+
+  ```bash
+  helm install --namespace kube-dialer kube-dialer deploy/charts/dialer
+  ```
+
   ## Docker images
-  - docker pull docker.pkg.github.com/kruzio/kube-dialer:master
+  - docker pull docker.pkg.github.com/kruzio/kube-dialer/dialer:$GITHUB_SHA
 
