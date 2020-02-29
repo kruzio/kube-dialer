@@ -29,7 +29,7 @@ jobs:
       - name: Build Container (kube-dialer)
         env:
           DOCKER_IMAGE: ${{ secrets.REPOSITORY }}
-        run: make kube-dialer-build-image DOCKER_IMAGE=$DOCKER_IMAGE
+        run: make kube-dialer-build-image DOCKER_IMAGE=${DOCKER_IMAGE}
 
       - name: Login to Github Package Registry
         env:
@@ -46,7 +46,7 @@ jobs:
           
 
         run:  |
-          docker tag $(DOCKER_IMAGE):latest docker.pkg.github.com/$REPOSITORY:$GITHUB_SHA docker.pkg.github.com/$REPOSITORY:master
+          docker tag $DOCKER_IMAGE:latest docker.pkg.github.com/$REPOSITORY:$GITHUB_SHA docker.pkg.github.com/$REPOSITORY:master
           docker push docker.pkg.github.com/$REPOSITORY:$GITHUB_SHA
           docker push docker.pkg.github.com/$REPOSITORY:master     
 
