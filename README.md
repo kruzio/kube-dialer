@@ -1,3 +1,5 @@
+![Release Draft On Master](https://github.com/kruzio/kube-dialer/workflows/Release%20Draft%20On%20Master/badge.svg)
+
 # kube-dialer
 Cluster Applications (Services) Single Page Dialer
 
