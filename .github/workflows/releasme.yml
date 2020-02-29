@@ -46,7 +46,8 @@ jobs:
           
 
         run:  |
-          docker tag $DOCKER_IMAGE:latest docker.pkg.github.com/$REPOSITORY:$GITHUB_SHA docker.pkg.github.com/$REPOSITORY:master
+          docker tag $DOCKER_IMAGE:latest docker.pkg.github.com/$REPOSITORY:$GITHUB_SHA
+          docker tag $DOCKER_IMAGE:latest docker.pkg.github.com/$REPOSITORY:master 
           docker push docker.pkg.github.com/$REPOSITORY:$GITHUB_SHA
           docker push docker.pkg.github.com/$REPOSITORY:master     
 
