@@ -26,13 +26,9 @@ kube-dialer-build-image: ##@KubeDialer Build kube-dialer image
 	  --build-arg VCS_REF=`git rev-parse --short HEAD` \
 	  --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 	  -t $(DOCKER_IMAGE):$(DOCKER_TAG) . 
+	docker tag $(DOCKER_IMAGE):$(DOCKER_TAG) $(DOCKER_IMAGE):latest
 
-kube-dialer-publish-image-github: ##@KubeDialer Publish kube-dialer image to github packages
-	# Push to Github
-	cat ~/GH_TOKEN.txt | docker login -u gadinaor --password-stdin
-	docker tag $(DOCKER_IMAGE):$(DOCKER_TAG) docker.pkg.github.com/kruzio/kube-dialer/dialer:$(DOCKER_TAG) docker.pkg.github.com/kruzio/kube-dialer/dialer:master
-	docker push docker.pkg.github.com/kruzio/kube-dialer/dialer:$(DOCKER_TAG)
-	docker push docker.pkg.github.com/kruzio/kube-dialer/dialer:master
+
 
 kube-dialer-artifacts: ##@KubeDialer Publish kube-dialer image
 	mkdir artifacts | true

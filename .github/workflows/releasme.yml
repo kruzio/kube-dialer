@@ -27,10 +27,28 @@ jobs:
         run: make kruz-get-linux-deps
 
       - name: Build Container (kube-dialer)
-        run: make kube-dialer-build-image DOCKER_IMAGE="kruzio/kube-dialer" VERSION="0.1"
+        env:
+          DOCKER_IMAGE: ${{ secrets.REPOSITORY }}
+        run: make kube-dialer-build-image
+
+      - name: Login to Github Package Registry
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_GITHUB_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_GITHUB_KEY }}
+          DOCKER_REGISTRY_URL: "docker.pkg.github.com"
+
+        run: docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REGISTRY_URL}
 
       - name: Publish Container (kube-dialer)
-        run:  make kube-dialer-publish-image-github DOCKER_IMAGE="kruzio/kube-dialer" VERSION="0.1"
+        env:
+          DOCKER_IMAGE: kruzio/kube-dialer
+          REPOSITORY: ${{ secrets.REPOSITORY }}
+          
+
+        run:  |
+          docker tag $(DOCKER_IMAGE):latest docker.pkg.github.com/$REPOSITORY:$GITHUB_SHA docker.pkg.github.com/$REPOSITORY:master
+          docker push docker.pkg.github.com/$REPOSITORY:$GITHUB_SHA
+          docker push docker.pkg.github.com/$REPOSITORY:master     
 
       - name: Create Release
         id: create_release
