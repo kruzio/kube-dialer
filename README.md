@@ -11,6 +11,29 @@ A single page web application with shortcuts (external links) genearted from Con
 * A dialer to cluster internal applications.
 * An engineering bookmark jump page.
 
+
+## Run Locally
+
+1. Create KIND Cluster
+```bash
+make create-cluster
+```
+
+2. Install NGINX Ingress COntroller
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
+```
+
+3. Add to your /etc/hosts file:
+```bash
+127.0.0.1	kubedialer.kruz.io
+```
+
+4. Install kube dialer
+```bash
+make helm-install
+```
+
 ## Installation
 
 With Helm 3 run:

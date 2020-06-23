@@ -15,7 +15,3 @@ We truncate at 24 chars because some Kubernetes name fields are limited to this 
 {{- printf "%s-%s" .Release.Name $name | trunc 24 -}}
 {{- end -}}
 
-
-{{- define "additionalJavaFlags" -}}
-{{ .Values.additionalJvmParams }}
-{{- end -}}

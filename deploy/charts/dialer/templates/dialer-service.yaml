@@ -1,0 +1,23 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubedialer-{{ .Release.Name }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+  annotations:
+    kruz.io/component.role: dialer
+    kruz.io/component.tier: edge
+    kruz.io/info.vendor: Kruz IO Inc.
+spec:
+  type: ClusterIP
+  selector:
+    app: kube-dialer
+  ports:
+  - name: https
+    protocol: TCP
+    port: {{ .Values.dialerPort }}
+    targetPort: {{ .Values.dialerPort }}

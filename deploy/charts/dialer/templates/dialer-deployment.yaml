@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}
+  name: kubedialer-{{ .Release.Name }}
   labels:
     app: kube-dialer
     heritage: "{{ .Release.Service }}"
@@ -81,28 +81,4 @@ spec:
         ports:
         - name: http
           containerPort: {{ .Values.dialerPort }}
-          protocol: TCP        
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Values.dialerService }}
-  labels:
-    app: {{ template "fullname" . }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
-  annotations:
-    kruz.io/component.role: dialer
-    kruz.io/component.tier: edge
-    kruz.io/info.vendor: Kruz IO Inc.
-spec:
-  type: ClusterIP
-  selector:
-    app: kube-dialer
-  ports:
-  - name: https
-    protocol: TCP
-    port: {{ .Values.dialerPort }}
-    targetPort: {{ .Values.dialerPort }}
+          protocol: TCP 

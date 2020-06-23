@@ -2,7 +2,66 @@ image:
   name: kruzio/kube-dialer:1.0.0-966cf0a
   pullPolicy: Always # Always | IfNotPresent
 
-dialerHostname: ops.kruz.io 
-dialerService: kube-dialer
+# If you modify this value - make sure to edit the value for oauth2-proxy.ingress.hosts[0] and oauth2-proxy.ingress.tls.hosts[0]
+dialerHostname: kubedialer.kruz.io
 dialerPort: 8080
 
+ingress:
+  # Enable Ingress Access Cluster Apps
+  enabled: true
+  # The ingress controller class to drive Kube Dialer Ingress objects
+  ingressControllerClass: nginx
+  # If you modify this value - make sure to edit the value for oauth2-proxy.ingress.tls.secretName
+  certsSecretName: kubedialer-certs
+  tls:
+    # self-signed | external
+    mode: "self-signed" 
+
+    # Externally signed certificates 
+    # --> no need to base64 encode
+    # Files must be under certs named: ca.pem, key.pem, cert.pem
+    selfSigned:
+      alternativeNames: [] #["kubedialer.yourdomain.io"]
+
+oauth2:
+  enabled: false
+
+#
+# oauth2-proxy is a dependent chart (see chart.yaml) - if oauth2.enabled == true
+#
+oauth2-proxy: 
+  # Oauth client configuration specifics
+  config:
+    # OAuth client ID
+    clientID: "XXXXXXX"
+    # OAuth client secret
+    clientSecret: "XXXXXXXX"
+    # Create a new secret with the following command
+    # openssl rand -base64 32 | head -c 32 | base64
+    # Use an existing secret for OAuth2 credentials (see secret.yaml for required fields)
+    # Example:
+    # existingSecret: secret
+    cookieSecret: "XXXXXXXXXX"
+    google: {}
+      # adminEmail: xxxx
+      # serviceAccountJson: xxxx
+      # Alternatively, use an existing secret (see google-secret.yaml for required fields)
+      # Example:
+      # existingSecret: google-secret
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"   
+    path: /oauth2
+    # Used to create an Ingress record.
+    hosts:
+      - kubedialer.kruz.io
+    tls:
+      - secretName: kubedialer-certs
+        hosts:
+          - kubedialer.kruz.io       
+  image:
+    repository: "quay.io/pusher/oauth2_proxy"
+    tag: "v5.1.0"  
+        
