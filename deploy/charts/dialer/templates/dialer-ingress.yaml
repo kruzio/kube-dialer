@@ -1,0 +1,31 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: dialer
+  annotations:
+    kruz.io/component.role: dialer-ingress
+    kruz.io/component.tier: edge
+    kruz.io/info.vendor: Kruz IO Inc.
+    kubernetes.io/ingress.class: {{ .Values.ingress.ingressControllerClass }}
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /   
+{{- if .Values.oauth2.enabled }}    
+    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$request_uri" 
+{{- end }}    
+
+spec:
+  rules:
+  - host: {{ .Values.dialerHostname }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kubedialer-{{ .Release.Name }}
+          servicePort: {{ .Values.dialerPort }}
+  tls:
+  - hosts:
+    - {{ .Values.dialerHostname }}
+    secretName: {{ .Values.certsSecretName}}
+{{- end -}}    
