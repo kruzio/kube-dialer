@@ -8,7 +8,7 @@ GORELEASER := $(CURDIR)/bin/goreleaser
 .phony: help tutorials
 
 create-kind-cluster:  ##@Test creatte KIND cluster
-	kind create cluster --config hack/kind-config.yaml --image kindest/node:v1.16.9 --name kruztest
+	kind create cluster --config hack/kind-config.yaml --image kindest/node:v1.18.2 --name kruztest
 
 delete-kind-cluster:  ##@Test delete KIND cluster
 	kind delete cluster --name kruztest

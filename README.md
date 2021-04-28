@@ -18,7 +18,7 @@ No Code, single page web application (SPA) with shortcuts (external links) genea
 
 1. Create KIND Cluster
 ```bash
-make create-cluster
+make create-kind-cluster
 ```
 
 2. Install NGINX Ingress COntroller
