@@ -1,0 +1,55 @@
+---
+name: Pull Request
+on: [pull_request]
+
+jobs:
+  pull-request-hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Unshallow
+        run: git fetch --prune --unshallow
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.15
+
+    - name: Run chart-testing (lint)
+      run: |
+        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 
+        chmod 700 get_helm.sh 
+        ./get_helm.sh
+        helm lint deploy/charts/dialer
+
+      - name: Launch Cluster
+        uses: helm/kind-action@v1.0.0
+        with:
+          version: v0.9.0
+          cluster_name: kube-dialer
+          node_image: kindest/node:v1.19.1
+          wait: 5m
+
+      - name: Test Chart Installation
+        run: |
+          kubectl cluster-info
+          kubectl create ns kube-dialer
+          helm install --wait --namespace kube-dialer --set image.name=kruzio/kube-dialer:latest kube-dialer deploy/charts/dialer
+
+      - name: Alcide Advisor Scan
+        run: |
+          curl -o kube-advisor https://alcide.blob.core.windows.net/generic/stable/linux/advisor
+          chmod +x kube-advisor
+          ./kube-advisor --eula-sign validate cluster --namespace-include="kube-dialer" --outfile alcide-advisor-security-report.html
+
+      - name: Upload Alcide Advisor Scan Report
+        uses: actions/upload-artifact@v1
+        with:
+          name: alcide-advisor-security-report.html 
+          path: alcide-advisor-security-report.html           
+
+
+      - name: Build
+        run: |
+          make get-release-bins
+          make gorelease-snapshot
